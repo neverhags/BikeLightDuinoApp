@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -117,12 +116,19 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_terminal, container, false);
-        receiveText = view.findViewById(R.id.receive_text);                          // TextView performance decreases with number of spans
-        receiveText.setTextColor(getResources().getColor(R.color.colorRecieveText)); // set as default color to reduce number of spans
-        receiveText.setMovementMethod(ScrollingMovementMethod.getInstance());
-        TextView sendText = view.findViewById(R.id.send_text);
-        View sendBtn = view.findViewById(R.id.send_btn);
-        sendBtn.setOnClickListener(v -> send(sendText.getText().toString()));
+        receiveText = view.findViewById(R.id.receive_text);
+        View leftBtn = view.findViewById(R.id.leftBtn);
+        leftBtn.setOnClickListener(v -> send("L"));
+        View rightBtn   = view.findViewById(R.id.rightBtn);
+        rightBtn.setOnClickListener(v -> send("R"));
+        View holdBtn    = view.findViewById(R.id.holdBtn);
+        holdBtn.setOnClickListener(v -> send("H"));
+        View allBtn     = view.findViewById(R.id.allBtn);
+        allBtn.setOnClickListener(v -> send("A"));
+        View vBtn       = view.findViewById(R.id.vBtn);
+        vBtn.setOnClickListener(v -> send("V"));
+        View bBtn       = view.findViewById(R.id.bBtn);
+        bBtn.setOnClickListener(v -> send("B"));
         return view;
     }
 
@@ -187,7 +193,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         try {
             SpannableStringBuilder spn = new SpannableStringBuilder(str+'\n');
             spn.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorSendText)), 0, spn.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            receiveText.append(spn);
+            //receiveText.setText(spn);
             byte[] data = (str + newline).getBytes();
             socket.write(data);
         } catch (Exception e) {
@@ -196,13 +202,13 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     }
 
     private void receive(byte[] data) {
-        receiveText.append(new String(data));
+        //receiveText.setText(new String(data));
     }
 
     private void status(String str) {
         SpannableStringBuilder spn = new SpannableStringBuilder(str+'\n');
         spn.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorStatusText)), 0, spn.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        receiveText.append(spn);
+        receiveText.setText(spn);
     }
 
     /*
