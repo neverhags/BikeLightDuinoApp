@@ -27,17 +27,17 @@ import android.widget.Toast;
 
 public class TerminalFragment extends Fragment implements ServiceConnection, SerialListener {
 
-    private enum Connected { False, Pending, True }
+    public enum Connected { False, Pending, True }
 
     private String deviceAddress;
     private String newline = "\r\n";
 
     private TextView receiveText;
 
-    private SerialSocket socket;
+    static public SerialSocket socket;
     private SerialService service;
     private boolean initialStart = true;
-    private Connected connected = Connected.False;
+    static public Connected connected = Connected.False;
 
     /*
      * Lifecycle
@@ -178,11 +178,19 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         }
     }
 
+    public Connected isConnected() {
+        return connected;
+    }
+
     private void disconnect() {
         connected = Connected.False;
         service.disconnect();
         socket.disconnect();
         socket = null;
+    }
+
+    public void sendCommand(String str) {
+        send(str);
     }
 
     private void send(String str) {
@@ -191,10 +199,10 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
             return;
         }
         try {
-            SpannableStringBuilder spn = new SpannableStringBuilder(str+'\n');
-            spn.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorSendText)), 0, spn.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //SpannableStringBuilder spn = new SpannableStringBuilder(str+'\n');
+            //spn.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorSendText)), 0, spn.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             //receiveText.setText(spn);
-            byte[] data = (str + newline).getBytes();
+            byte[] data = (str).getBytes();
             socket.write(data);
         } catch (Exception e) {
             onSerialIoError(e);
