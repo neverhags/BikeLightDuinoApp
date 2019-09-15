@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     public void onSensorChanged(SensorEvent event) {
         AcelerometerFunctions ac = new AcelerometerFunctions();
-        ac.watcher(event.values[0],event.values[2]);
+        ac.watcher(event.values[0],event.values[1],event.values[2]);
     }
 
     @Override

@@ -4,35 +4,36 @@ import android.util.Log;
 
 public class AcelerometerFunctions {
 
-    public void watcher(Float sensorEvent, Float sensorBreak) {
-        Log.d("STATE X",sensorEvent + "");
-        Log.d("STATE Z",sensorBreak + "");
+    public void watcher(Float sensorX, Float sensorY, Float sensorZ) {
+        Log.d("STATE X",sensorX + "");
+        Log.d("STATE Y",sensorY + "");
+        Log.d("STATE Z",sensorZ + "");
         // Breaks
-        if( sensorBreak > 2 ) {
+        if( sensorZ > 2 && sensorY < (9.8-2) ) {
             breaksOn();
             return;
         }
 
-        if( sensorEvent < -2 ) {
+        if( sensorX < -2 ) {
             turnRight();
         }
-        if( sensorEvent > 2 ) {
+        if( sensorX > 2 ) {
             turnLeft();
         }
-        if( sensorEvent < 2 && sensorEvent > -2 ) {
+        if( sensorX < 2 && sensorX > -2 ) {
             hold();
         }
     }
-    public void turnLeft() {
+    private void turnLeft() {
         send("L");
     }
-    public void turnRight() {
+    private void turnRight() {
         send("R");
     }
-    public void hold() {
+    private void hold() {
         send("H");
     }
-    public void breaksOn() {
+    private void breaksOn() {
         send("A");
     }
 
@@ -46,7 +47,7 @@ public class AcelerometerFunctions {
             byte[] data = (str).getBytes();
             TerminalFragment.socket.write(data);
         } catch (Exception e) {
-            Log.d("Error when write data: ",TF.isConnected().toString());
+            Log.d("Error when write data",TF.isConnected().toString());
         }
     }
 }
