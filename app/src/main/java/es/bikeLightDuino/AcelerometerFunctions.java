@@ -1,26 +1,32 @@
-package de.kai_morich.simple_bluetooth_terminal;
+package es.bikeLightDuino;
 
 import android.util.Log;
 
 public class AcelerometerFunctions {
+    private TerminalFragment TF = new TerminalFragment();
 
     public void watcher(Float sensorX, Float sensorY, Float sensorZ) {
+        Integer tolerance = 0;
+        try {
+            tolerance = TF.getTolerance();
+        } catch(Exception e) {}
+
         Log.d("STATE X",sensorX + "");
         Log.d("STATE Y",sensorY + "");
         Log.d("STATE Z",sensorZ + "");
         // Breaks
-        if( sensorZ > 2 && sensorY < (9.8-2) ) {
+        if( sensorZ > tolerance && sensorY < (9.8-tolerance) ) {
             breaksOn();
             return;
         }
 
-        if( sensorX < -2 ) {
+        if( sensorX < -tolerance ) {
             turnRight();
         }
-        if( sensorX > 2 ) {
+        if( sensorX > tolerance ) {
             turnLeft();
         }
-        if( sensorX < 2 && sensorX > -2 ) {
+        if( sensorX < tolerance && sensorX > -tolerance ) {
             hold();
         }
     }
@@ -38,7 +44,7 @@ public class AcelerometerFunctions {
     }
 
     private void send(String str) {
-        TerminalFragment TF = new TerminalFragment();
+
         if(TF.isConnected() != TerminalFragment.Connected.True) {
             return;
         }

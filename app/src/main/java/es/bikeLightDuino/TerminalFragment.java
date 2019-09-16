@@ -1,5 +1,6 @@
-package de.kai_morich.simple_bluetooth_terminal;
+package es.bikeLightDuino;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -22,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +36,11 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
 
     private TextView receiveText;
 
+    @SuppressLint("StaticFieldLeak")
+    static private SeekBar seekBar;
+    @SuppressLint("StaticFieldLeak")
     static public SerialSocket socket;
+
     private SerialService service;
     private boolean initialStart = true;
     static public Connected connected = Connected.False;
@@ -116,19 +122,14 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_terminal, container, false);
+        seekBar = view.findViewById(R.id.tolerance);
         receiveText = view.findViewById(R.id.receive_text);
-        View leftBtn = view.findViewById(R.id.leftBtn);
-        leftBtn.setOnClickListener(v -> send("L"));
-        View rightBtn   = view.findViewById(R.id.rightBtn);
-        rightBtn.setOnClickListener(v -> send("R"));
-        View holdBtn    = view.findViewById(R.id.holdBtn);
-        holdBtn.setOnClickListener(v -> send("H"));
-        View allBtn     = view.findViewById(R.id.allBtn);
-        allBtn.setOnClickListener(v -> send("A"));
+
         View vBtn       = view.findViewById(R.id.vBtn);
         vBtn.setOnClickListener(v -> send("V"));
         View bBtn       = view.findViewById(R.id.bBtn);
         bBtn.setOnClickListener(v -> send("B"));
+
         return view;
     }
 
@@ -180,6 +181,10 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
 
     public Connected isConnected() {
         return connected;
+    }
+
+    static public Integer getTolerance() {
+        return seekBar.getProgress();
     }
 
     private void disconnect() {

@@ -1,4 +1,4 @@
-package de.kai_morich.simple_bluetooth_terminal;
+package es.bikeLightDuino;
 
 import android.content.Context;
 import android.hardware.SensorEventListener;
@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import java.util.Objects;
 

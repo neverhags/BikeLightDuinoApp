@@ -1,4 +1,4 @@
-package de.kai_morich.simple_bluetooth_terminal;
+package es.bikeLightDuino;
 
 interface SerialListener {
     void onSerialConnect      ();
