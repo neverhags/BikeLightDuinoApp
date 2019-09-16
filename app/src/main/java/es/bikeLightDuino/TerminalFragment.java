@@ -146,12 +146,11 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
             return true;
         } else if (id ==R.id.newline) {
             String[] newlineNames = getResources().getStringArray(R.array.newline_names);
-            String[] newlineValues = getResources().getStringArray(R.array.newline_values);
-            int pos = java.util.Arrays.asList(newlineValues).indexOf(newline);
+            int pos = 0;
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Newline");
             builder.setSingleChoiceItems(newlineNames, pos, (dialog, item1) -> {
-                newline = newlineValues[item1];
+                newline = "\r\n";
                 dialog.dismiss();
             });
             builder.create().show();
