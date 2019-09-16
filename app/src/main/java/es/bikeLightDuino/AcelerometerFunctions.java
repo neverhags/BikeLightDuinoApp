@@ -6,27 +6,29 @@ public class AcelerometerFunctions {
     private TerminalFragment TF = new TerminalFragment();
 
     public void watcher(Float sensorX, Float sensorY, Float sensorZ) {
-        Integer tolerance = 0;
+        Integer lrRolerance = 1;
+        Integer brTolerance = 1;
         try {
-            tolerance = TF.getTolerance();
+            lrRolerance = TF.getLRTolerance();
+            brTolerance = TF.getBRTolerance();
         } catch(Exception e) {}
 
         Log.d("STATE X",sensorX + "");
         Log.d("STATE Y",sensorY + "");
         Log.d("STATE Z",sensorZ + "");
         // Breaks
-        if( sensorZ > tolerance && sensorY < (9.8-tolerance) ) {
+        if( sensorZ > brTolerance && sensorY < (9.8-brTolerance) ) {
             breaksOn();
             return;
         }
 
-        if( sensorX < -tolerance ) {
+        if( sensorX < -lrRolerance ) {
             turnRight();
         }
-        if( sensorX > tolerance ) {
+        if( sensorX > lrRolerance ) {
             turnLeft();
         }
-        if( sensorX < tolerance && sensorX > -tolerance ) {
+        if( sensorX < lrRolerance && sensorX > -lrRolerance ) {
             hold();
         }
     }

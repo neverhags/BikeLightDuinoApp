@@ -2,7 +2,6 @@ package es.bikeLightDuino;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
@@ -36,10 +35,13 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
 
     private TextView receiveText;
 
-    @SuppressLint("StaticFieldLeak")
-    static private SeekBar seekBar;
+
     @SuppressLint("StaticFieldLeak")
     static public SerialSocket socket;
+    @SuppressLint("StaticFieldLeak")
+    static public SeekBar lrTolerance;
+    @SuppressLint("StaticFieldLeak")
+    static public SeekBar brTolerance;
 
     private SerialService service;
     private boolean initialStart = true;
@@ -122,8 +124,9 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_terminal, container, false);
-        seekBar = view.findViewById(R.id.tolerance);
+        lrTolerance = view.findViewById(R.id.lrTolerance);
         receiveText = view.findViewById(R.id.receive_text);
+        brTolerance = view.findViewById(R.id.brTolerance);
 
         View vBtn       = view.findViewById(R.id.vBtn);
         vBtn.setOnClickListener(v -> send("V"));
@@ -141,23 +144,14 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.clear) {
-            receiveText.setText("");
-            return true;
-        } else if (id ==R.id.newline) {
-            String[] newlineNames = getResources().getStringArray(R.array.newline_names);
-            int pos = 0;
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Newline");
-            builder.setSingleChoiceItems(newlineNames, pos, (dialog, item1) -> {
-                newline = "\r\n";
-                dialog.dismiss();
-            });
-            builder.create().show();
+        /*
+        if (id ==R.id.saveState) {
             return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
+         */
+        return false;
     }
 
     /*
@@ -182,8 +176,11 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         return connected;
     }
 
-    static public Integer getTolerance() {
-        return seekBar.getProgress();
+    static public Integer getLRTolerance() {
+        return lrTolerance.getProgress();
+    }
+    static public Integer getBRTolerance() {
+        return brTolerance.getProgress();
     }
 
     private void disconnect() {

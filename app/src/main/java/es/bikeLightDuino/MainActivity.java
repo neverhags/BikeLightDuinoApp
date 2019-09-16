@@ -1,6 +1,7 @@
 package es.bikeLightDuino;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.SensorEventListener;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.hardware.SensorManager;
+import android.widget.SeekBar;
 
 import java.util.Objects;
 

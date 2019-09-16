@@ -10,25 +10,42 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="449dp"
+        android:layout_height="401dp"
         android:layout_weight="1"
         app:srcCompat="@drawable/h1"
         tools:srcCompat="@drawable/h1" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/ltr_text"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="33dp"
         android:layout_weight="1"
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"
-        android:text="Tolerance:" />
+        android:text="L/R Tolerance:" />
 
     <SeekBar
-        android:id="@+id/tolerance"
+        android:id="@+id/lrTolerance"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_weight="1"
+        android:max="5" />
+
+    <EditText
+        android:id="@+id/brt_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="textPersonName"
+        android:text="Brakes Tolerance" />
+
+    <SeekBar
+        android:id="@+id/brTolerance"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
         android:layout_weight="1"
         android:max="5" />
 
